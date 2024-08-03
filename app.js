@@ -9,6 +9,34 @@ const globalErrorHandler = require("./middleware/globalErrorHandler.js");
 const httpStatus = require("http-status");
 const errorResponse = require("./utils/errorResnponse.js");
 
+require("dotenv/config");
+
+
+// Database connection
+mongoose
+  .connect(
+    "mongodb+srv://mobinulislam:8NWFTTL3vZqC2W0L@cluster0.mskd8ua.mongodb.net/avinash"
+  )
+  .then(() => {
+    console.log("Database connection is successful 🛢");
+  })
+  .catch((error) => {
+    console.error("Error connecting to the database:", error.message);
+  });
+
+  process.on("unhandledRejection", (error) => {
+    console.log("error here", error);
+    mongoose.connection
+      .close()
+      .then(() => {
+        process.exit(1);
+      })
+      .catch((error) => {
+        console.error("Error closing Mongoose connection:", error.message);
+        process.exit(1);
+      });
+  });
+  
 // Middlewares
 let app = express();
 app.use(express.urlencoded({ extended: true }));

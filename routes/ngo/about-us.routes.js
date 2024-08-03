@@ -12,6 +12,7 @@ router.post(
   multer.upload.fields([{ name: "aboutImage", maxCount: 1 }]),
   aboutUsController.postAboutUs
 );
+
 router.get(
   "/",
 
